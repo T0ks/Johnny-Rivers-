@@ -1,0 +1,215 @@
+package Rocket;
+// программа упраления ракетной шахтой №217
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+public class rocketMineTerminalOperator {
+
+	public static void main(String[] args) {
+		rocketTerminal cs = new rocketTerminal();//тут запускается программа
+
+	}
+
+}
+public class rocketTerminal  {
+//в этом классе делаются визуальная часть и привязывается к функциональной
+JPanel superPanel = new JPanel();
+//Поля кнопочки и прочиее
+JTextField enterNameOfCity = new JTextField(30);
+
+JButton btn0 = new JButton("Пуск!");
+
+JButton rocket0 = new JButton("Точка-У");
+JButton rocket1 = new JButton("Луна-М");
+JButton rocket2 = new JButton("Сатана");
+JButton rocket3 = new JButton("Эльбрус");
+
+JTextArea ara0 = new JTextArea("Панель управління рокетною шахтою №217");
+
+JTextArea ara2 = new JTextArea("1.Виберіть місто");
+JTextArea ara3 = new JTextArea("2.Виберіть рaкету");
+JTextArea ara4 = new JTextArea("3.Натисніть 'Пуск'  та насолоджуйтесь ");
+
+JButton city0 = new JButton("Москва");
+JButton city1 = new JButton("Cанк-Пітербург");
+JButton city2 = new JButton("Ростов-на-Дону");
+//Главная панель
+rocketTerminal (){
+GridLayout b1 = new GridLayout(4,1);
+superPanel.setLayout(b1);
+
+//Панель где написаны стори текста
+JPanel panel3 = new JPanel();
+	GridLayout gim = new GridLayout(6,1);
+	superPanel.add("North", panel3);
+		panel3.setLayout(gim);
+		panel3.add(ara0);
+		panel3.add(ara2);
+		panel3.add(ara3);
+		panel3.add(ara4);
+		panel3.add(enterNameOfCity);
+		
+		//Панель где города в кнопочках
+JPanel panel4 = new JPanel();
+	FlowLayout mig = new FlowLayout();
+	superPanel.add("North", panel4);
+		panel4.setLayout(mig);
+		panel4.add(city0);
+		panel4.add(city1);
+		panel4.add(city2);
+		
+		//Панель где ракеты в кнопочках
+JPanel panel0 = new JPanel();
+	GridLayout g1 = new GridLayout(2,2);
+	superPanel.add("Center", panel0);
+		panel0.setLayout(g1);
+		panel0.add(rocket0);
+		panel0.add(rocket1);
+		panel0.add(rocket2);
+		panel0.add(rocket3);
+
+
+		//Панель где главная кнопка пуск
+JPanel panel1 = new JPanel();
+	FlowLayout b2 = new FlowLayout();
+	superPanel.add("South",panel1 );
+		panel1.setLayout(b2);
+		panel1.add(btn0);
+		
+			
+			
+		
+		//Фрейм очень важная штука без неё всё будет невидемым
+JFrame frame0 = new JFrame("Панель управління оператор №1488");
+	frame0.setContentPane(superPanel);
+		frame0.setSize(400, 500);
+		frame0.setLocation(500,180);
+		frame0.setVisible(true);
+		//тут Привязка к функционльной части
+rocketMine cc = new rocketMine(this);
+	city0.addActionListener(cc);
+	city1.addActionListener(cc);
+	city2.addActionListener(cc);
+	rocket0.addActionListener(cc);
+	rocket1.addActionListener(cc);
+	rocket2.addActionListener(cc);
+	rocket3.addActionListener(cc);
+	btn0.addActionListener(cc);
+	
+
+}
+}
+//Собственно сама функциональная часть
+public class rocketMine implements ActionListener{
+	rocketTerminal parent;
+	long time0 = System.currentTimeMillis();
+	String selectAction = "";
+	String currentResult = "";
+	
+	String city;
+	String rocket;
+	int d=1;
+	rocketMine(rocketTerminal parent){
+		this.parent =parent;
+	}
+
+	//тут описывается действия в
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		JButton clickedButton = (JButton) e.getSource();// если закоментить эту строчку то рагедии не случится но она страхует от ошибки вс троке 194
+		String display = parent.enterNameOfCity.getText();//то же самое что и со строкой вышк
+		String displayValue = "";//смотри выше
+		if (!"".equals(display)){ 
+									
+			displayValue= String.valueOf(0);
+	}
+		Object src = e.getSource();
+
+		//тут описывается что случится если нажать на одну из кнопочек-городов
+		if(src == parent.city0){
+			currentResult=displayValue;
+			//inputDataToA(displayValue);
+			parent.enterNameOfCity.setText("Москва");	// вывод в текстовое поле
+			city="Москва";//присваивание оно нам потом пригодится 
+		}
+			else if(src == parent.city1){
+				currentResult=displayValue;
+				//inputDataToA(displayValue);
+				parent.enterNameOfCity.setText("Санк-Питербугр");
+				city="Санк-Питербугр";
+		}
+			else if(src == parent.city2){
+				currentResult=displayValue;
+				//inputDataToA(displayValue);
+				parent.enterNameOfCity.setText("Ростов-на-Дону");
+				city="Ростов-на-Дону";
+		}
+		
+		//тут описывается что случится если нажать на одну из кнопочек-ракет
+		if(src == parent.rocket0){
+			currentResult=displayValue;
+			///inputDataToB(displayValue);
+			parent.enterNameOfCity.setText("Точка-У");// вывод в текстовое поле
+			rocket ="Точка-У" ; //опять таки присваивание
+		}
+			else if(src == parent.rocket1){
+				currentResult=displayValue;
+				//inputDataToB(displayValue);
+				parent.enterNameOfCity.setText("Луна-М");
+				rocket ="Луна-М" ;
+		}
+			else if(src == parent.rocket2){
+				currentResult=displayValue;
+				//inputDataToB(displayValue);
+				parent.enterNameOfCity.setText("Сатана");
+				rocket ="Сатана" ;
+		}
+			else if(src == parent.rocket3){
+				currentResult=displayValue;
+				//inputDataToB(displayValue);
+				parent.enterNameOfCity.setText("Эльбрус");
+				rocket ="Эльбрус" ;
+		}
+
+		
+		
+			
+			
+		if(src==parent.btn0){
+			currentResult=displayValue;
+			parent.enterNameOfCity.setText("Рaкета "+rocket+" полетіла у місто "+city+" !");// вот тут мы используем наши присваиваня город и ракета
+			d=2;// эта д нужна для того чтобы после того как прога отработает 1 раз доклад о убийствах е вылазил при каждом нажатии кнопки
+		}
+		else{
+			// Для всех цифровых кнопок присоединить надпись на
+			// кнопке к надписи в дисплее
+			String clickedButtonLabel= clickedButton.getText();
+			parent.enterNameOfCity.setText(display +" "+clickedButtonLabel);
+			}
+		
+		
+		if(d==2){//отсылка к строке 190)
+			long time1 = System.currentTimeMillis();//как я считаю убитых 
+			long time = time1-time0;//формула была украдена из штаба тер.орг "ДНР" так они считают потери противника переписано 1 в 1
+		int randomNumber =(int) (5 + (Math.random() * (8 - 5)));
+		
+		JFrame frame1 = new JFrame("Поздоровляємо! дорогий оператор №1488 ");
+		JOptionPane.showMessageDialog(frame1,"Було вбито "+time*randomNumber+ " кацапів", "Поздоровляємо! дорогий оператор №1488 ",JOptionPane.OK_CANCEL_OPTION);
+		
+		
+		}
+		
+		d--;//опять таки д 
+			
+	}
+
+	}
