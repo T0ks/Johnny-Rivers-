@@ -1,0 +1,243 @@
+
+import java.applet.Applet;
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Label;
+import java.awt.Panel;
+import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import javax.swing.JOptionPane;
+//программа открывает файл создает и открывает текстовый файл
+//критика приветствуется skymennn@gmail.com(если знаешь как улучшить мой код = пиши)
+public class app extends Applet implements ActionListener {
+	//объявление элементов
+Button b1,b2,b3,b4;
+Label l1,l2;
+TextField tf1,tf2,tf3;
+Panel panel;
+//создание экземпляров методов 
+//того которыф поможет записать инфу в файл
+fileIn in = new fileIn();
+// и вытащить её от туда
+fileOut out = new fileOut();
+//начало роботы апплета
+public void init(){
+	//ниже пошла визуальная  часть
+	this.setLayout(new BorderLayout());
+	this.setBackground(Color.GRAY);
+	Font appFont = new Font("A",Font.ITALIC,15);
+	panel = new Panel();
+	this.add(panel);
+	panel.setLayout(null);
+	
+	//текстовое поле в котром мы пишем инфу
+	tf1 = new TextField();
+	tf1.setBounds(300, 100, 300, 100);
+	tf1.addActionListener(this);
+	panel.add(tf1);
+	
+	//текстовое поле в котором мы пишем адрес файла который создастся
+	tf2 = new TextField();
+	tf2.setBounds(620, 160, 100, 30);
+	tf2.addActionListener(this);
+	panel.add(tf2);
+	
+	//тектовое поле в которм мы введём адрес файла с которого хотим считать инфу
+	//выведется на l1
+	tf3 = new TextField();
+	tf3.setBounds(620, 360, 100, 30);
+	tf3.addActionListener(this);
+	panel.add(tf3);
+	
+	//лейбл который вводит инфу
+	l1 = new Label();
+	l1.setBackground(Color.white);
+	l1.setBounds(300,300, 300, 100);
+	panel.add(l1);
+	
+	//полсе нажатия кнопки b3 всё заблочится и будет видимо только этот лейбл
+	l2 = new Label("Редактор закрыт");
+	l2.setBounds(100, 1, 100, 60);
+	l2.setBackground(Color.RED);
+	l2.setForeground(Color.white);
+	
+	//кнопка по комманде которой считыватся инфа с tf1 и tf2
+	b1 = new Button("Добавить");
+	b1.setBounds(620,100,100,50);
+	b1.addActionListener(this);
+	panel.add(b1);
+	
+	//этак нопка активизирует класс отвечающий за вынимание инфы из файла
+	b2 = new Button("Вынять");
+	b2.setBounds(620,300,100,50);
+	b2.addActionListener(this);
+	panel.add(b2);
+	
+	//кнопка блочит всё и вся(!даже b4) и показывает только l2
+	b3 = new Button("Закрыть");
+	b3.setBounds(620,400,100,50);
+	b3.addActionListener(this);
+	panel.add(b3);
+	
+	//деблочит всё
+	b4 = new Button("Ещё разок");
+	b4.setBounds(620,200,100,50);
+	b4.addActionListener(this);
+	panel.add(b4);
+	
+	this.setSize(1000,600);// размеры апплета
+	
+	//визуальная часть закончилась
+	
+}
+@Override
+//описание роботы кнопок, лейблов и полей
+public void actionPerformed(ActionEvent e) {
+	//нажатие на кнопку "Добавить"
+	if(e.getSource() ==b1){
+		//берётся одна строчка из текстового поля того в котором записана 
+		//информация
+		String a = tf1.getText();
+		//и строчка из текстового поля 
+		//в котором записано (должен быть записано) имя файла
+		String b = tf2.getText();
+	
+		in.fileIn(b,a);
+	//тут блочатся кнопочик/поля/лейблы
+			tf1.disable();
+			tf2.disable();
+			b1.disable();
+	}
+		
+	else if(e.getSource() == b2){
+		String a = tf3.getText();
+		//тут блочатся кнопочик/поля/лейблы
+			tf3.disable();
+			b2.disable();
+			l1.setText(out.fileOut(a));
+	}
+	else if(e.getSource() == b3 ){
+		
+		this.setSize(300,60);
+		this.setLocation(1,100);
+		panel.add(l2);
+		//тут блочатся кнопочик/поля/лейблы
+			tf2.disable();
+			tf1.disable();
+			b1.disable();
+			tf3.disable();
+			b2.disable();
+			b3.disable();
+			b4.disable();
+		
+}
+else if(e.getSource() == b4 ){
+	//тут блочатся кнопочик/поля/лейблы
+			tf2.enable();
+			tf1.enable();
+			b1.enable();
+			tf3.enable();
+			b2.enable();	
+			tf2.enable();
+			tf1.enable();		
+	
+}
+}
+}
+
+public class fileOut {
+
+FileReader  myFile = null;
+BufferedReader bufMyFile = null;
+String line = null;
+
+@SuppressWarnings("finally")
+public  String fileOut(String fileO){
+	
+	
+	try{
+		myFile = new FileReader(fileO+".txt");// тут написано какой файл хотим открыть
+		bufMyFile = new BufferedReader(myFile);//буферизация для скорости
+		while(true){
+			
+			try {
+				line = bufMyFile.readLine();
+				System.out.println("Открыть файл с поэтичным названием  "+ fileO+" получилось");
+				if(line == null)break;// не срабоет по тому же что и ексепшены
+				return line;
+			} catch (IOException e) {
+				
+				System.out.println("Ошибочка");
+			}
+			//эти ексепшаны сработают если ты не введёшь данные в tf3 и убереёшь
+			//".txt" из FileReader и файлрайтера в fileIn а так нет
+		} 
+		}catch (FileNotFoundException e){
+			
+			System.err.println("Прости хоязин, но файла споэтичным названем "+ fileO + " нет((");
+			
+		}finally{
+			try{
+				bufMyFile.close();
+				myFile.close();
+			}
+			 catch (IOException e) {
+				}
+				catch(NullPointerException e1){
+				
+				System.err.println("По файлу  "+ fileO + " передалось значение 0");
+				String g = "Выбраный вами файл не существует";
+			line = g;
+				}
+		
+	return line;
+
+}}}
+public class fileIn {
+	
+FileWriter newFile = null;
+BufferedWriter bufFile = null; 
+
+public void fileIn(String nameOfFile,String myText){
+	try {
+		newFile = new FileWriter(nameOfFile+".txt");//тут указывается файл
+		bufFile = new BufferedWriter(newFile);//буфферизация для скорости
+		bufFile.write(myText);
+		System.out.println("Текст записался в файл " + nameOfFile);//отчёт на консоль
+			
+		// ексепшены никогда не выведутя(сам не доволен)я 
+		//долго с ними боролся, не поборол случайно нашёл как обойти 
+		// дописал в файлрайтер+".txt" не по тому что 
+		//искал лёгкий путь а лишь мечту о простоте для юзера лелея
+	} 
+	 catch (IOException e1) {
+			System.out.println("тут ошибочка1");
+			JOptionPane.showMessageDialog( null, "В текстовом поле пусто", "Сообщение", JOptionPane.INFORMATION_MESSAGE);
+			
+		}
+	finally{
+		try {
+			bufFile.flush();
+			bufFile.close();
+			newFile.close();
+		} catch (IOException e1) {
+		}
+		catch (NullPointerException e) {
+			System.out.println("тут ошибочка4");
+		
+		}
+		
+	}
+	
+}
+}
