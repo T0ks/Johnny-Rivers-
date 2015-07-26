@@ -1,0 +1,183 @@
+
+
+import java.applet.Applet;
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.Color;
+import java.awt.Label;
+import java.awt.Panel;
+import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JOptionPane;
+
+@SuppressWarnings("serial")
+public class Bancomat  extends Applet implements ActionListener{
+Button b1,b2;
+Label l1,l2,l3,l4;
+TextField tf1;
+double startMoney = 100.00;
+public void init(){
+	this.setLayout(new BorderLayout());
+	this.setBackground(Color.lightGray);
+	
+	
+	Panel centerPan = new Panel();
+	Panel northPan = new Panel();
+	Panel soutPanel = new Panel();
+	
+	this.add(northPan,"North");
+	this.add(centerPan,"Center");
+	this.add(soutPanel,"South");
+	
+	tf1 = new TextField(6);
+	tf1.setBackground(Color.white);
+	tf1.addActionListener(this);
+	
+	l2 = new Label("        ");
+	l2.setForeground(Color.GREEN);
+	l2.setBackground(Color.BLACK);
+	
+	
+	l1 = new Label("Поле ввода");
+	l3 = new Label("Наличные");
+	l4 = new Label("Коммисия 1%");
+	northPan.add(l1);
+	northPan.add(l3);
+	centerPan.add(tf1);
+	centerPan.add(l2);
+	
+	
+	b1 = new Button("Пополнить");
+	b2 = new Button("Снять");
+	
+	b1.addActionListener(this);
+	b2.addActionListener(this);
+	
+	soutPanel.add(b1);
+	soutPanel.add(b2);
+	soutPanel.add(l4);
+	this.setSize(300, 200);
+	moneyOnDisplay();
+	
+	
+	
+}
+
+public void actionPerformed(ActionEvent e){
+	if (e.getSource() ==b1){
+		plus();
+	}
+	else if (e.getSource() ==b2){
+		minus();
+	}
+}
+public void plus(){
+	if (ifMoreThen()){
+	double money = Double.parseDouble(tf1.getText());
+	startMoney = startMoney+money;
+	startMoney = startMoney*0.99;
+	moneyOnDisplay();
+	vasa();
+	vasa1();
+}}
+public void minus(){
+	if (ifMinThen()){
+	double money = Double.parseDouble(tf1.getText());
+	startMoney = startMoney-money;
+	startMoney = startMoney*1.01;
+	moneyOnDisplay();
+	vasa();
+	vasa1();
+}}
+public void moneyOnDisplay(){
+	
+	String ball = String.valueOf(startMoney); 
+	l2.setText(ball);
+}
+private boolean ifMinThen(){
+	String message = "";
+	
+	if(!isInteger(tf1.getText())){
+		message = "Мы не принимаем письма отсюда)пишие числа.письма принимаются по адресу skymennn@gmail.com";
+		
+	}
+	else if(Integer.parseInt(tf1.getText()) < 10){
+		message = "меньше 10и  нельзя снимать ведь тогда вы заплатите слишком мало комиссии  ";
+	
+	}else{
+		return true;
+	}
+	 JOptionPane.showMessageDialog(b1, message, "Ошибка", JOptionPane.WARNING_MESSAGE);
+	return false;
+}
+private boolean ifMoreThen(){
+	String message = "";
+	
+	if(!isInteger(tf1.getText())){
+		message = "Мы не принимаем письма отсюда)пишие числа.письма принимаются по адресу skymennn@gmail.com";
+	}
+	else if(Integer.parseInt(tf1.getText()) > 1000){
+		message = "Ложить больше 1000 ? нет так не пойдёт я не успиваю есть";
+	}
+	else{
+		return true;
+	}
+	 JOptionPane.showMessageDialog(null, message, "Ошибка", JOptionPane.WARNING_MESSAGE);
+	return false;
+}
+
+private boolean isInteger(String num){
+	try{
+		Integer.parseInt(num);
+		return true;
+	}
+	catch (NumberFormatException e){
+		return false;
+	}
+}
+public void vasa(){
+	String ball = String.valueOf(startMoney); 
+	
+	String message1 = "Вах какой богатый) ты наверно програмист, давай так ты платишь мне 300 в месяц и я бросаю роботу и буду стирать тебе носки!";
+	
+	 try {
+	       double  i3 = Double.parseDouble(ball);
+	         if(i3>=10000){
+	        	 JOptionPane.showMessageDialog(null, message1, "Супер предложениие", JOptionPane.OK_CANCEL_OPTION);
+	         }
+	         else{
+	        	 
+	         }
+	    } catch (NumberFormatException e) {  
+	        //System.err.println("Неверный формат строки!");  
+	    } 
+}
+public void vasa1(){
+	String ball = String.valueOf(startMoney); 
+	
+	String message1 = "У тебя задолженость теперь ТЫ мне должен денег ,и я нашлю на тебя коллектора если задолдаешь больше 600";
+	
+	String message6 = "Молись своим бога дружок, зелёный логан выехал за тобой";
+	
+	 try {
+		 double  i3 = Double.parseDouble(ball);
+	         if(i3<=-100&i3>-199){
+	        	 JOptionPane.showMessageDialog(null, message1, "Супер предложениие", JOptionPane.OK_CANCEL_OPTION);
+	        
+	         }
+	         else if (i3<=-600){
+	        	 JOptionPane.showMessageDialog(null, message6, "Супер предложениие", JOptionPane.OK_CANCEL_OPTION);
+	        	
+	         }
+	         
+	    } catch (NumberFormatException e) {  
+	        
+	    } 
+}
+
+
+
+}
+
