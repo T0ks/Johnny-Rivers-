@@ -155,7 +155,7 @@ else if(e.getSource() == b4 ){
 }
 }
 
-public class fileOut {
+ class fileOut {
 
 FileReader  myFile = null;
 BufferedReader bufMyFile = null;
@@ -203,7 +203,7 @@ public  String fileOut(String fileO){
 	return line;
 
 }}}
-public class fileIn {
+ class fileIn {
 	
 FileWriter newFile = null;
 BufferedWriter bufFile = null; 
